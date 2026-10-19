@@ -16,7 +16,14 @@ const providerConfig = {
   OpenRouter: { env: "OPENROUTER_API_KEY", model: "openai/gpt-4o-mini" },
 } as const;
 
-function getText(data: any): string {
+type ProviderResponse = {
+  choices?: Array<{ message?: { content?: unknown } }>;
+  content?: Array<{ text?: unknown }>;
+  candidates?: Array<{ content?: { parts?: Array<{ text?: unknown }> } }>;
+  error?: { message?: unknown };
+};
+
+function getText(data: ProviderResponse): string {
   if (typeof data?.choices?.[0]?.message?.content === "string") return data.choices[0].message.content;
   if (typeof data?.content?.[0]?.text === "string") return data.content[0].text;
   if (typeof data?.candidates?.[0]?.content?.parts?.[0]?.text === "string") return data.candidates[0].content.parts[0].text;
@@ -77,10 +84,10 @@ export async function POST(request: Request) {
       });
     }
 
-    const data = await response.json().catch(() => ({}));
+    const data: ProviderResponse = await response.json().catch(() => ({} as ProviderResponse));
     if (!response.ok) {
       // Never return provider headers or secrets; keep provider error text short.
-      const message = typeof data?.error?.message === "string" ? data.error.message.slice(0, 350) : "Le fournisseur a refusé la requête.";
+      const message = typeof data.error?.message === "string" ? data.error.message.slice(0, 350) : "Le fournisseur a refusé la requête.";
       return NextResponse.json({ configured: true, ok: false, provider, status: response.status, message }, { status: 502 });
     }
 
