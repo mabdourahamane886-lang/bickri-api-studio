@@ -7,7 +7,7 @@ Console Next.js de Bickri Service Agency pour centraliser la préparation des AP
 - Navigation, catalogue initial Gemini, OpenAI, Anthropic et OpenRouter.
 - Génération de clés de démonstration via une route serveur (non persistées, non utilisables pour authentifier des requêtes).
 - Endpoint `GET /api/providers/status` qui indique si les variables fournisseur sont configurées sans révéler leurs valeurs.
-- Endpoint `POST /api/providers/test` qui appelle les API officielles côté serveur lorsqu'une clé correspondante est configurée.
+- Endpoint `POST /api/providers/test` qui appelle les API officielles côté serveur en développement lorsque la clé correspondante est configurée. En production, les appels sont bloqués jusqu'à l'ajout de l'authentification et des quotas.
 - Validation des entrées, délai maximal pour les requêtes fournisseur et en-têtes de sécurité de base.
 - Aucun résultat fictif lorsque le fournisseur n'est pas configuré.
 
@@ -33,7 +33,7 @@ Cette version est un socle de développement, pas encore une plateforme de produ
 6. Ajouter un contrôle des coûts et des modèles autorisés.
 7. Ne jamais activer la génération non authentifiée en production.
 
-La génération de clés est désactivée en production. Les tests fournisseur ne fonctionnent que si les variables serveur correspondantes sont définies. Les fournisseurs peuvent facturer les requêtes de test.
+La génération de clés est désactivée en production. Les tests fournisseur fonctionnent en développement si les variables serveur correspondantes sont définies. En production, ils restent bloqués jusqu'à l'authentification et aux quotas. Les fournisseurs peuvent facturer les requêtes de test.
 
 ## Déploiement
 Compatible avec Vercel. Configure les variables d'environnement dans le projet de déploiement, puis valide le build et les permissions avant toute ouverture publique.
