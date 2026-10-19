@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import {
-  Activity, AlertTriangle, ArrowUpRight, Boxes, Check, ChevronRight, CircleHelp,
+  Activity, AlertTriangle, ArrowUpRight, Boxes,
   Code2, Copy, Cpu, FlaskConical, KeyRound, LayoutDashboard, LockKeyhole,
   Menu, Plus, Search, Settings, ShieldCheck, Sparkles, Terminal, Users, X, Zap
 } from "lucide-react";
