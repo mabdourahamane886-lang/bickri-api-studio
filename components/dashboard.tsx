@@ -72,7 +72,7 @@ export default function Dashboard() {
         body: JSON.stringify({ provider, prompt })
       });
       const data = await res.json();
-      setResult(data.message ?? data.error ?? "Aucun résultat reçu.");
+      setResult(data.text ?? data.message ?? data.error ?? "Aucun résultat reçu.");
     } catch { setResult("Impossible de joindre le backend."); }
     finally { setBusy(false); }
   }
