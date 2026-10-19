@@ -9,7 +9,7 @@ const schema = z.object({
 });
 
 export async function POST(request: Request) {
-  if (process.env.NODE_ENV === "production" && process.env.BICKRI_ALLOW_UNAUTHENTICATED_KEY_CREATION !== "true") {
+  if (process.env.NODE_ENV === "production") {
     return NextResponse.json(
       { error: "Création désactivée en production tant que l’authentification et le stockage ne sont pas configurés." },
       { status: 503 }
