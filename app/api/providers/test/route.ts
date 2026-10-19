@@ -31,6 +31,14 @@ function getText(data: ProviderResponse): string {
 }
 
 export async function POST(request: Request) {
+  // Until authentication, authorization and rate limits exist, never expose paid provider calls publicly.
+  if (process.env.NODE_ENV === "production") {
+    return NextResponse.json({
+      configured: false,
+      message: "Les tests fournisseurs sont désactivés en production jusqu'à l'ajout de l'authentification et des quotas."
+    }, { status: 503 });
+  }
+
   let body: unknown;
   try { body = await request.json(); }
   catch { return NextResponse.json({ error: "Corps JSON invalide." }, { status: 400 }); }
